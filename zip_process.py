@@ -43,6 +43,7 @@ def main():
                                             device), model, device, logger)
         res_d["names"].append(name)
         res_d["labels"].append(label)
+        print(name,' ',label)
     df = pd.DataFrame.from_dict(res_d)
     df.to_csv("./out.csv", index=False)
     if os.path.exists(target_unzip_path):
