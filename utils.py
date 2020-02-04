@@ -5,9 +5,9 @@ import torch
 from facenet_pytorch import MTCNN, fixed_image_standardization
 from PIL import Image, ImageDraw
 from torchvision import transforms
+import os
 
-
-def extract_faces(img, logger, img_name, device) -> list:
+def extract_faces(img, logger, img_name, device, saving = False) -> list:
     '''
         Extracts all faces from given Image(PIL.Image.Image)
         Returns python list of PIL.Image.Image objects 
@@ -22,8 +22,14 @@ def extract_faces(img, logger, img_name, device) -> list:
     imgs = []
     if boxes is None:
         return None
+    k = 0
     for i in boxes:
         imgs.append(img.crop(i))
+        if saving:
+            if not os.path.exists("./tmp/"):
+                os.makedirs("./tmp/")
+            img.crop(i).save("./tmp/" + str(k) + ".jpg")
+            k += 1
         # img.crop(i).show()
     return imgs
 
